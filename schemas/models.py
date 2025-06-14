@@ -57,4 +57,14 @@ class Registration(RegistrationBase):
     attended: bool = False
 
     class Config:
+        from_attributes = True
+
+class RegistrationResponse(BaseModel):
+    registration_id: int
+    username: str
+    event_name: str
+    registration_date: datetime
+    attended: bool = False
+
+    class Config:
         from_attributes = True 

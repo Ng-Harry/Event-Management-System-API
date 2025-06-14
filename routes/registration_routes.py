@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from schemas.models import Registration, RegistrationCreate
+from schemas.models import Registration, RegistrationCreate, RegistrationResponse
 from services.registration_service import RegistrationService
 from routes.user_routes import user_service
 from routes.event_routes import event_service
@@ -8,7 +8,7 @@ from routes.event_routes import event_service
 router = APIRouter(prefix="/registrations", tags=["registrations"])
 registration_service = RegistrationService(user_service, event_service)
 
-@router.post("/", response_model=Registration)
+@router.post("/", response_model=RegistrationResponse)
 def create_registration(registration: RegistrationCreate):
     new_registration = registration_service.create_registration(registration)
     if not new_registration:
@@ -18,17 +18,17 @@ def create_registration(registration: RegistrationCreate):
         )
     return new_registration
 
-@router.get("/", response_model=List[Registration])
+@router.get("/", response_model=List[RegistrationResponse])
 def get_registrations():
     return registration_service.get_all_registrations()
 
-@router.get("/user/{user_id}", response_model=List[Registration])
+@router.get("/user/{user_id}", response_model=List[RegistrationResponse])
 def get_user_registrations(user_id: int):
     if not user_service.get_user(user_id):
         raise HTTPException(status_code=404, detail="User not found")
     return registration_service.get_user_registrations(user_id)
 
-@router.patch("/{registration_id}/attend", response_model=Registration)
+@router.patch("/{registration_id}/attend", response_model=RegistrationResponse)
 def mark_attendance(registration_id: int):
     registration = registration_service.mark_attendance(registration_id)
     if not registration:
