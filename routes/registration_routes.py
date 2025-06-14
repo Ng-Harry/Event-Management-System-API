@@ -35,6 +35,6 @@ def mark_attendance(registration_id: int):
         raise HTTPException(status_code=404, detail="Registration not found")
     return registration
 
-@router.get("/attended", response_model=List[int])
+@router.get("/attended", response_model=List[str])
 def get_users_with_attendance():
     return registration_service.get_users_with_attendance() 

@@ -61,6 +61,7 @@ class RegistrationService:
     def get_attended_registrations(self) -> List[Registration]:
         return [reg for reg in self.registrations if reg.attended]
 
-    def get_users_with_attendance(self) -> List[int]:
+    def get_users_with_attendance(self) -> List[str]:
         attended_user_ids = {reg.user_id for reg in self.registrations if reg.attended}
-        return list(attended_user_ids) 
+        attended_users = [self.user_service.get_user(user_id) for user_id in attended_user_ids]
+        return [user.name for user in attended_users if user is not None] 
