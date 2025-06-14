@@ -46,4 +46,4 @@ class EventService:
         return event
 
     def get_open_events(self) -> List[Event]:
-        return [event for event in self.events if event.is_open] 
+        return [event for event in self.events if event.is_open]    
